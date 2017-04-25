@@ -25,7 +25,7 @@ end
 
 post '/eje3' do
   @nombre = params[:nombre]
-  if @nombre== 'Marcelo' or @nombre=='Claudia'
+  if @nombre.capitalize== 'Marcelo' or @nombre.capitalize=='Claudia'
     slim :eje2s
   else
     slim :index
