@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'sinatra'
 require 'slim'
+
 require 'data_mapper'
 DataMapper.setup(:default, 'sqlite:db/db1.db')
 DataMapper::Logger.new($stdout, :debug)
@@ -83,9 +84,9 @@ get '/task_editar/:lista/:tarea' do
   slim :task_editar
 end
 
-post '/task_editar/:lista' do
+post '/task_editar/:lista/:tarea' do
   list = List.get(params[:lista])
-  task = Task.update(titulo: params[:titulo], cuerpo: params[:cuerpo], fechavencimieto: params[:fechavencimieto], completada: params[:completada], fechamodificacion: params[:fechamodificacion])
+  task = Task.get(params[:tarea]).update(titulo: params[:titulo], cuerpo: params[:cuerpo], fechavencimieto: params[:fechavencimieto], completada: params[:completada], fechamodificacion: params[:fechamodificacion])
   list.save
 
   redirect "/lists/ver/#{list.id}"
@@ -93,7 +94,15 @@ end
 
 get '/task_borrar/:lista/:tarea' do
   list = List.get(params[:lista])
-  task= Task.destroy(id: params[:tarea])
+  task = Task.get(params[:tarea])
+  task.destroy()
   list.save
   redirect "/lists/ver/#{list.id}"
+end
+
+get '/list_borrar/:lista' do
+  list = List.get(params[:lista])
+  list.tasks.destroy()
+  list.destroy()
+  redirect "/"
 end

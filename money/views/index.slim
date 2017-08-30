@@ -1,0 +1,30 @@
+div class="panel-body"
+	form action="/cambio" method="post"
+		label
+			| Cantidad
+		br
+		input name="cantidad" type="text" required="true"
+		br
+		label
+			| Moneda
+		br
+		select name="moneda1" required="true"
+			option
+				| 
+			- @money.each do |elem|
+				option value="#{elem}"
+					| #{elem.name}
+		br
+		label
+			| Moneda
+		br
+		select name="moneda2" required="true"
+			option
+				| 
+			- @money.each do |elemento|
+				option value="#{elemento}"
+					| #{elemento.name}
+		br
+		br
+		input type="submit" class="btn btn-success"
+
